@@ -3,9 +3,10 @@
 #include "platform/multiboot.h"
 #include "common/str.h"
 #include "platform/platform_init.h"
-#include "platform/gfx.h"
+#include "platform/graphics.h"
 #include "platform/ata.h"
 #include "platform/memory.h"
+#include "gui/renderer.h"
 
 void print_multiboot_header(multiboot_info_t *mbi) {
     char buffer[512] = {0};
@@ -96,60 +97,28 @@ void print_memory_info(int x, int y) {
 }
 
 
-static u32 last_ticks = 0;
-
-void draw_clock() {
-    
-    if(ticks - last_ticks > 10) {
-        char buf[64] = {0};
-    
-        int s = (ticks / 100) % 60;
-        int m = (ticks / 100 / 60) % 60;
-        int h = (ticks / 100 / 3600) % 24;
-    
-        append_int(buf, h, 10);
-        append_str(buf, ":");
-        append_int(buf, m, 10);
-        append_str(buf, ":");
-        append_int(buf, s, 10);
-        int font_size = 20;
-        int padding = 4;
-        int text_width = font_size * .65f * kstrlen(buf);
-      
-        fill_rect(1,
-                  FB_HEIGHT - (font_size + padding * 2) - 2,
-                  text_width + padding * 2,
-                  font_size + padding * 2 - 2,
-                  COLOR_BLUE, 8);
-        draw_text(padding,
-                  FB_HEIGHT - (font_size + padding) - 4,
-                  buf,
-                  font_size,
-                  COLOR_YELLOW);
-    
-        last_ticks = ticks;
-    }
-}
-
-static u16 ata_test_buf[256];
-
 
 void kernel_main(unsigned long magic, multiboot_info_t* mb_info) {
     
 
 
     platform_init(mb_info);
-    memory_init();
 
 
-    print_multiboot_header(mb_info);
-    print_memory_info(400, 190);
+    window_t window = {0};
+    window.x = 20;
+    window.y = 30;
+    window.width = 400;
+    window.height = 400;
     
-
-
+    
+    
     while(true) {
-        draw_clock();
-        if(ticks % 200 == 0) {
+        if(ticks % 20 == 0) {
+            clear_desktop();
+            draw_status_bar();
+            draw_window(&window);
+            graphics_present();
             sys_memory_commit();
         } 
     }

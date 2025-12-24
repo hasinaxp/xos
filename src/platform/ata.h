@@ -1,6 +1,5 @@
 #pragma once
 #include "../common/types.h"
-#include "gfx.h"
 
 
 fn ata_wait_bsy() {

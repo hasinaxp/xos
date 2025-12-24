@@ -35,8 +35,9 @@ typedef struct {
 } rect_t;
 
 
-#define MIN(a, b) (a < b ? a : b)
-#define MAX(a, b) (a > b ? a : b)
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define ABS(a)    ((a) > 0 ? (a) : -(a)) 
 
 
 static inline void outb(u16 port, u8 val) {
