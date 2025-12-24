@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "pit.h": "c",
+        "types.h": "c",
+        "string.h": "c",
+        "pic.h": "c",
+        "platform_init.h": "c",
+        "stdint.h": "c"
+    }
+}

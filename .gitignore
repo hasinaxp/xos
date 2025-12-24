@@ -1,0 +1,4 @@
+xos.iso
+disk.img
+build/*
+iso/boot/kernel.elf
